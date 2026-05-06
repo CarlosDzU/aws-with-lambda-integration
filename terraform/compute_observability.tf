@@ -87,6 +87,7 @@ resource "aws_lambda_function" "crop_lambda" {
   environment {
     variables = {
       S3_BUCKET        = aws_s3_bucket.images.bucket
+      UPLOAD_PREFIX    = "uploads/"
       PROCESSED_PREFIX = "processed/"
     }
   }
