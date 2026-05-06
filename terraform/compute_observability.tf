@@ -37,16 +37,6 @@ resource "aws_cloudwatch_metric_alarm" "dlq_alarm" {
 
 # 2. Despliegue de Funciones Lambda
 
-# Generación de un paquete ZIP temporal para permitir la creación inicial de los recursos Lambda
-data "archive_file" "dummy_lambda" {
-  type        = "zip"
-  output_path = "${path.module}/dummy.zip"
-  source {
-    content  = "exports.handler = async (event) => { return 'Inicialización exitosa'; };"
-    filename = "index.js"
-  }
-}
-
 # Función Lambda para la subida de archivos (Upload)
 resource "aws_lambda_function" "upload_lambda" {
   function_name = "upload-lambda-${var.environment}"
@@ -57,8 +47,8 @@ resource "aws_lambda_function" "upload_lambda" {
   timeout       = 30
 
   # Código base temporal (será reemplazado por el despliegue de la aplicación)
-  filename         = data.archive_file.dummy_lambda.output_path
-  source_code_hash = data.archive_file.dummy_lambda.output_base64sha256
+  filename         = "${path.module}/../src/upload-lambda.zip"
+  source_code_hash = filebase64sha256("${path.module}/../src/upload-lambda.zip")
 
   # Configuración de red: Ejecución dentro de subredes privadas con Security Groups específicos
   vpc_config {
@@ -86,8 +76,8 @@ resource "aws_lambda_function" "crop_lambda" {
   memory_size   = 512 # Asignación de memoria superior para procesamiento de imágenes
   timeout       = 60
 
-  filename         = data.archive_file.dummy_lambda.output_path
-  source_code_hash = data.archive_file.dummy_lambda.output_base64sha256
+  filename         = "${path.module}/../src/crop-lambda.zip"
+  source_code_hash = filebase64sha256("${path.module}/../src/crop-lambda.zip")
 
   vpc_config {
     subnet_ids         = [aws_subnet.private_a.id, aws_subnet.private_b.id]
