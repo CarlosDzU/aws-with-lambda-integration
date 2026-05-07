@@ -93,7 +93,7 @@ curl -X POST <TU_API_URL_AQUI> \
   -H "Content-Type: image/png" \
   --data-binary "@../foto.png"
 ```
-# Ahora toca repetir el proceso para los otros entornos.
+**Ahora toca repetir el proceso para los otros entornos.**
 
 ```bash
 terraform workspace select qa
@@ -102,8 +102,8 @@ curl -X POST <TU_API_URL_AQUI> \
   -H "Content-Type: image/png" \
   --data-binary "@../foto.png"
 ```
-# Solo se pueden desplegar dos entornos a la vez sin ampliar la maquina virtual. 
-# Pasar a limpieza y luego desplegar el ultimo entorno.
+**Solo se pueden desplegar dos entornos a la vez sin ampliar la maquina virtual. Pasar a limpieza y luego desplegar el ultimo entorno.**
+
 ```bash
 terraform workspace select prod
 terraform apply -var-file="prod.tfvars" -auto-approve
