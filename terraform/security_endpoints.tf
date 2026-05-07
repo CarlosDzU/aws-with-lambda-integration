@@ -3,7 +3,7 @@
 
 # Grupo de seguridad para la Lambda de subida (Upload)
 resource "aws_security_group" "sg_upload_lambda" {
-  name        = "sg-upload-lambda-${var.environment}"
+  name        = "upload-lambda-sg-${var.environment}"
   description = "Permite a la Lambda de subida comunicarse con servicios externos"
   vpc_id      = aws_vpc.main.id
 
@@ -20,7 +20,7 @@ resource "aws_security_group" "sg_upload_lambda" {
 
 # Grupo de seguridad para la Lambda de recorte (Crop)
 resource "aws_security_group" "sg_crop_lambda" {
-  name        = "sg-crop-lambda-${var.environment}"
+  name        = "crop-lambda-sg-${var.environment}"
   description = "Permite a la Lambda de procesamiento comunicarse con servicios externos"
   vpc_id      = aws_vpc.main.id
 
@@ -37,7 +37,7 @@ resource "aws_security_group" "sg_crop_lambda" {
 
 # Grupo de seguridad para el VPC Endpoint de SQS
 resource "aws_security_group" "sg_vpce_sqs" {
-  name        = "sg-vpce-sqs-${var.environment}"
+  name        = "vpce-sqs-sg-${var.environment}"
   description = "Controla el acceso al endpoint de SQS desde la red privada"
   vpc_id      = aws_vpc.main.id
 
